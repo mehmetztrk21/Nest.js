@@ -8,4 +8,4 @@ import { AppService } from './app.service';
   providers: [AppService], //modülün sağlayıcıları yani servisleri
   exports: [], //modülün dışa aktardığı şeyler
 })
-export class AppModule { }
+export class AppModule {}
