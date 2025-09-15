@@ -17,7 +17,6 @@ yarn-error.log*
 .env.*
 
 # IDE/editor files
-.vscode/
 .idea/
 *.swp
 
@@ -28,6 +27,6 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# vscode settings
-.vscode/settings.json
-.vscode/
+# # vscode settings
+# .vscode/settings.json
+# .vscode/
