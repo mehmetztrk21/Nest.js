@@ -11,6 +11,7 @@ import { PathModule } from './path/path.module';
 import { LogModule } from './log/log.module';
 import { GlobalModule } from './global/global.module';
 import { StudentModule } from './student/student.module';
+import { CustomconfigModule } from './customconfig/customconfig.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { StudentModule } from './student/student.module';
     LogModule.registerAsync(), // runtime çalışıyor ve async çalışıyor
     GlobalModule, // global modül. Diğer modüllerde import etmeye gerek yok.
     StudentModule,
+    CustomconfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],
