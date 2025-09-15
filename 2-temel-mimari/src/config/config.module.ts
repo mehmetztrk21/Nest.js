@@ -3,6 +3,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 @Module({})
 export class ConfigModule {
   static forRoot(env: 'dev' | 'prod'): DynamicModule {
+    //Tüm uygulama için tek bir konfigürasyon modülü oluşturduk
     //dinamik modül bu şekilde oluşturulur
     const isDev = env === 'dev';
     return {

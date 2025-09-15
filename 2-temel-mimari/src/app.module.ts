@@ -6,6 +6,9 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentModule } from './payment/payment.module';
 import { ConfigModule } from './config/config.module';
+import { CustomerModule } from './customer/customer.module';
+import { PathModule } from './path/path.module';
+import { LogModule } from './log/log.module';
 
 @Module({
   imports: [
@@ -13,7 +16,10 @@ import { ConfigModule } from './config/config.module';
     ProductsModule,
     OrdersModule,
     PaymentModule,
-    ConfigModule.forRoot('dev'), // dinamik modül kullanımı
+    ConfigModule.forRoot('dev'), //Bütün projeyi ilgilendiriyor.
+    CustomerModule.forFeature(), //belli bir modülü ilgilendiriyor.
+    PathModule.register('https://example.com'), //runtime parametre alıyor
+    LogModule.registerAsync(), // runtime çalışıyor ve async çalışıyor
   ],
   controllers: [AppController],
   providers: [AppService],
