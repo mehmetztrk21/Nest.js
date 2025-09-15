@@ -27,3 +27,7 @@ coverage/
 # OS files
 .DS_Store
 Thumbs.db
+
+# vscode settings
+.vscode/settings.json
+.vscode/
