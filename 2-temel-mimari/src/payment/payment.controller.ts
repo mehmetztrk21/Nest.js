@@ -6,12 +6,15 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Headers,
   Patch,
   Post,
   Put,
   Req,
   Res,
   UseFilters,
+  Header,
+  Query,
 } from '@nestjs/common';
 import type { Request, Response } from 'express'; //type import ederken type anahtar kelimesini kullanıyoruz
 import { CustomExceptionFilter } from 'src/utils/customExceptionFilter';
@@ -39,7 +42,19 @@ export class PaymentController {
   }
 
   @Put(':id')
-  updatePayment(@Param('id') id: number, @Res() res: Response) {
+  @Header('CUSTOM-HEADER', '123') //response header eklemek için kullanılır
+  updatePayment(
+    @Param('id') id: number,
+    @Res() res: Response,
+    @Headers() headers: Record<string, string>,
+    @Headers('host') host: string,
+    @Query('ref') ref: string,
+    @Query() query: Record<string, string>,
+  ) {
+    console.log('Headers:', headers);
+    console.log('Host:', host);
+    console.log('Ref:', ref);
+    console.log('Query:', query);
     if (id == 1) {
       return res.status(404).json({
         statusCode: 404,
