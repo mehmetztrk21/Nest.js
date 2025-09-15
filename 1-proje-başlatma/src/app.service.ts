@@ -28,4 +28,10 @@ export class AppService
   getHello(): string {
     return 'Hello World!';
   }
+  getSayHi(): string {
+    return 'Hi';
+  }
+  sayMyName(name: string): string {
+    return `My name is ${name}`;
+  }
 }
