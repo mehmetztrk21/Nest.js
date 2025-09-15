@@ -9,6 +9,7 @@ import { ConfigModule } from './config/config.module';
 import { CustomerModule } from './customer/customer.module';
 import { PathModule } from './path/path.module';
 import { LogModule } from './log/log.module';
+import { GlobalModule } from './global/global.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { LogModule } from './log/log.module';
     CustomerModule.forFeature(), //belli bir modülü ilgilendiriyor.
     PathModule.register('https://example.com'), //runtime parametre alıyor
     LogModule.registerAsync(), // runtime çalışıyor ve async çalışıyor
+    GlobalModule, // global modül. Diğer modüllerde import etmeye gerek yok.
   ],
   controllers: [AppController],
   providers: [AppService],
