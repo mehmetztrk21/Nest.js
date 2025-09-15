@@ -10,6 +10,7 @@ import { CustomerModule } from './customer/customer.module';
 import { PathModule } from './path/path.module';
 import { LogModule } from './log/log.module';
 import { GlobalModule } from './global/global.module';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { GlobalModule } from './global/global.module';
     PathModule.register('https://example.com'), //runtime parametre alıyor
     LogModule.registerAsync(), // runtime çalışıyor ve async çalışıyor
     GlobalModule, // global modül. Diğer modüllerde import etmeye gerek yok.
+    StudentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
