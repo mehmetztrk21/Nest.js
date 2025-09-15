@@ -24,7 +24,7 @@ export class UsersController {
   @Get() // http://localhost:3000/users
   test() {
     this.usersService.testConfig();
-    return 'get user endpoint';
+    return this.usersService.getAllUsers();
   }
 
   @Get(':id') // http://localhost:3000/users/1
