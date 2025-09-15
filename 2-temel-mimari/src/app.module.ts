@@ -5,9 +5,16 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentModule } from './payment/payment.module';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [UsersModule, ProductsModule, OrdersModule, PaymentModule],
+  imports: [
+    UsersModule,
+    ProductsModule,
+    OrdersModule,
+    PaymentModule,
+    ConfigModule.forRoot('dev'), // dinamik modül kullanımı
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
