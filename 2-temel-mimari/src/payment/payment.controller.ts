@@ -3,16 +3,21 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
   Put,
   Req,
   Res,
+  UseFilters,
 } from '@nestjs/common';
 import type { Request, Response } from 'express'; //type import ederken type anahtar kelimesini kullanıyoruz
+import { CustomExceptionFilter } from 'src/utils/customExceptionFilter';
 
 @Controller('payment')
+@UseFilters(CustomExceptionFilter) //bu controllerdaki tüm route'larda bu filter'ı kullan
 export class PaymentController {
   @Get()
   getPayment(@Req() req: Request, @Res() res: Response) {
@@ -40,6 +45,9 @@ export class PaymentController {
         statusCode: 404,
         message: 'Payment method not found',
       });
+    }
+    if (id == 2) {
+      throw new HttpException('Hata alındı', HttpStatus.BAD_REQUEST);
     }
     return res.status(200).json({
       statusCode: 200,
