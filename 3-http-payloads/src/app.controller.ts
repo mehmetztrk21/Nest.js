@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import type { User } from './models/user.model';
+import { NoFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
@@ -39,6 +40,16 @@ export class AppController {
     console.log('User created:', user.name, user);
     return {
       message: 'User created successfully',
+      userData: user,
+    };
+  }
+
+  @UseInterceptors(NoFilesInterceptor()) // form-data içinde dosya olmasını engeller. Formdata verisini böyle alabiliriz file olmadan.
+  @Post('createFormDataUser')
+  createUserWithFormData(@Body() user: User) {
+    console.log('User created with form data:', user.name, JSON.stringify(user));
+    return {
+      message: 'User created successfully with form data',
       userData: user,
     };
   }
