@@ -14,6 +14,7 @@ import { StudentModule } from './student/student.module';
 import { CustomconfigModule } from './customconfig/customconfig.module';
 import { WriterService } from './writer/writer.service';
 import { WriterModule } from './writer/writer.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -29,11 +30,12 @@ import { WriterModule } from './writer/writer.module';
     StudentModule,
     CustomconfigModule,
     WriterModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, WriterService],
 })
-export class AppModule {}
+export class AppModule { }
 
 //Yeni bir modül oluşturmak için terminalde şu komutu kullanabiliriz:
 //nest g module users

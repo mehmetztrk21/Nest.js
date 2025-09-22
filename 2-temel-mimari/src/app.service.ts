@@ -8,6 +8,7 @@ export class AppService implements OnModuleInit {
     @Inject('PATH_CONFIG') private pathConfig,
     @Inject('LOG_CONFIG') private logConfig,
     @Inject('WRITE') private writerService,
+    @Inject('DATABASE_CONNECTION') private databaseService,
     private customConfigService: CustomconfigService,
   ) { }
   getHello(): string {
@@ -19,6 +20,7 @@ export class AppService implements OnModuleInit {
     console.log('Path Config:', this.pathConfig);
     console.log('Log Config:', this.logConfig);
     console.log('Custom Config:', this.customConfigService.getCustomConfig());
+    this.databaseService.connect();
     this.writerService.writeLog('This is a log message from AppService.');
   }
 }
