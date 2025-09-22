@@ -17,6 +17,8 @@ import { WriterModule } from './writer/writer.module';
 import { DatabaseModule } from './database/database.module';
 import { PropertyModule } from './property/property.module';
 import { PropertyService } from './property/property.service';
+import { MailService } from './mail/mail.service';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -34,9 +36,10 @@ import { PropertyService } from './property/property.service';
     WriterModule,
     DatabaseModule,
     PropertyModule,
+    MailModule,
   ],
   controllers: [AppController],
-  providers: [AppService, WriterService, PropertyService],
+  providers: [AppService, WriterService, PropertyService, MailService],
 })
 export class AppModule { }
 
