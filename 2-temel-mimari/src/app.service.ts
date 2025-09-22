@@ -1,6 +1,7 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { CustomconfigService } from './customconfig/customconfig.service';
 import { PropertyService } from './property/property.service';
+import { MessageService } from './message/message.service';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -10,6 +11,7 @@ export class AppService implements OnModuleInit {
     @Inject('LOG_CONFIG') private logConfig,
     @Inject('WRITE') private writerService,
     @Inject('DATABASE_CONNECTION') private databaseService,
+    private messageService: MessageService,
     private customConfigService: CustomconfigService,
   ) { }
   @Inject(PropertyService) // bu şekilde de inject edebiliriz. Buna property injection denir.
@@ -26,5 +28,6 @@ export class AppService implements OnModuleInit {
     this.databaseService.connect();
     this.writerService.writeLog('This is a log message from AppService.');
     this.propertyService.logProperty();
+    this.messageService.sendMessage('Hello via multiple handlers!');
   }
 }

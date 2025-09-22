@@ -19,6 +19,7 @@ import { PropertyModule } from './property/property.module';
 import { PropertyService } from './property/property.service';
 import { MailService } from './mail/mail.service';
 import { MailModule } from './mail/mail.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { MailModule } from './mail/mail.module';
     DatabaseModule,
     PropertyModule,
     MailModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService, WriterService, PropertyService, MailService],
