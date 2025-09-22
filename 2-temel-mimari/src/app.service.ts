@@ -2,6 +2,7 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { CustomconfigService } from './customconfig/customconfig.service';
 import { PropertyService } from './property/property.service';
 import { MessageService } from './message/message.service';
+import { DB_CONNECTION } from './database/database.provider';
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -9,9 +10,9 @@ export class AppService implements OnModuleInit {
     @Inject('CUSTOMER_CONFIG') private config,
     @Inject('PATH_CONFIG') private pathConfig,
     @Inject('LOG_CONFIG') private logConfig,
-    @Inject('WRITE') private writerService,
-    @Inject('DATABASE_CONNECTION') private databaseService,
-    private messageService: MessageService,
+    @Inject('WRITE') private writerService, // string token
+    @Inject(DB_CONNECTION) private databaseService, // symbol token
+    private messageService: MessageService, // class token 
     private customConfigService: CustomconfigService,
   ) { }
   @Inject(PropertyService) // bu şekilde de inject edebiliriz. Buna property injection denir.
