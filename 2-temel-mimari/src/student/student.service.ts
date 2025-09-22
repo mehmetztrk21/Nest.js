@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@nestjs/common';
 import { StudentRepository } from './student.repository';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class StudentService {
