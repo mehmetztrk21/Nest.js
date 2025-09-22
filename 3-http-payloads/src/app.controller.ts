@@ -1,11 +1,24 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Req, Res, UseInterceptors } from '@nestjs/common';
+import { NoFilesInterceptor } from '@nestjs/platform-express';
+import type { Request, Response } from 'express';
 import { AppService } from './app.service';
 import type { User } from './models/user.model';
-import { NoFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
+
+  @Get('setcookie')
+  setCookie(@Res() res: Response, @Req() req: Request): void {
+    console.log('Cookies: ', req.cookies);
+    res.cookie('testcookie', 'testvalue', {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000), // 15 dakika sonra sona erer
+      secure: false, // sadece HTTPS için true yapabiliriz
+
+    });
+    res.send('Cookie has been set');
+  }
 
   @Post()
   createData(@Body() user: User) {
