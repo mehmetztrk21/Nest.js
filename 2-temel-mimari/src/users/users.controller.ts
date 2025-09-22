@@ -20,7 +20,7 @@ import { UsersService } from './users.service';
   version: ['1', '2'], //versioning için kullanılır. Bu controller hem v1 hem de v2 isteklerinde aktif olur. main.ts içinde versioning ayarları yapılmalı. VersioningType.URI kullanılırsa endpointler http://localhost:3000/v1/users ve http://localhost:3000/v2/users olur.
 })
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { } // constructor injection
   @Get() // http://localhost:3000/users
   test() {
     this.usersService.testConfig();

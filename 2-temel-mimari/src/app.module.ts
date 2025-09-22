@@ -15,6 +15,8 @@ import { CustomconfigModule } from './customconfig/customconfig.module';
 import { WriterService } from './writer/writer.service';
 import { WriterModule } from './writer/writer.module';
 import { DatabaseModule } from './database/database.module';
+import { PropertyModule } from './property/property.module';
+import { PropertyService } from './property/property.service';
 
 @Module({
   imports: [
@@ -31,9 +33,10 @@ import { DatabaseModule } from './database/database.module';
     CustomconfigModule,
     WriterModule,
     DatabaseModule,
+    PropertyModule,
   ],
   controllers: [AppController],
-  providers: [AppService, WriterService],
+  providers: [AppService, WriterService, PropertyService],
 })
 export class AppModule { }
 
