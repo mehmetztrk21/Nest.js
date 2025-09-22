@@ -34,6 +34,15 @@ export class AppController {
     };
   }
 
+  @Post('createXmlUser') // npm install express-xml-bodyparser
+  createUserWithXml(@Body() user: User) {
+    console.log('User created:', user.name, user);
+    return {
+      message: 'User created successfully',
+      userData: user,
+    };
+  }
+
   @Get()
   getHello(): string {
     return this.appService.getHello();
