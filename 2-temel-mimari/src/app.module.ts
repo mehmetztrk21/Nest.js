@@ -12,6 +12,8 @@ import { LogModule } from './log/log.module';
 import { GlobalModule } from './global/global.module';
 import { StudentModule } from './student/student.module';
 import { CustomconfigModule } from './customconfig/customconfig.module';
+import { WriterService } from './writer/writer.service';
+import { WriterModule } from './writer/writer.module';
 
 @Module({
   imports: [
@@ -26,9 +28,10 @@ import { CustomconfigModule } from './customconfig/customconfig.module';
     GlobalModule, // global modül. Diğer modüllerde import etmeye gerek yok.
     StudentModule,
     CustomconfigModule,
+    WriterModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, WriterService],
 })
 export class AppModule {}
 

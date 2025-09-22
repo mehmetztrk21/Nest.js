@@ -6,4 +6,4 @@ import { CUSTOM_CONFIG_PROVIDER } from './customConfig.provider';
     providers: [CustomconfigService, CUSTOM_CONFIG_PROVIDER],
     exports: [CustomconfigService],
 })
-export class CustomconfigModule {}
+export class CustomconfigModule { }

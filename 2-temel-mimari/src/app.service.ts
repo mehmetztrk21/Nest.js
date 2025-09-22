@@ -7,8 +7,9 @@ export class AppService implements OnModuleInit {
     @Inject('CUSTOMER_CONFIG') private config,
     @Inject('PATH_CONFIG') private pathConfig,
     @Inject('LOG_CONFIG') private logConfig,
+    @Inject('WRITE') private writerService,
     private customConfigService: CustomconfigService,
-  ) {}
+  ) { }
   getHello(): string {
     return 'Hello World!';
   }
@@ -18,5 +19,6 @@ export class AppService implements OnModuleInit {
     console.log('Path Config:', this.pathConfig);
     console.log('Log Config:', this.logConfig);
     console.log('Custom Config:', this.customConfigService.getCustomConfig());
+    this.writerService.writeLog('This is a log message from AppService.');
   }
 }
