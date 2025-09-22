@@ -1,10 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { CreateUserDto } from './dtos/request/createUserDto';
 import { UpdateUserDto } from './dtos/request/updateUserDto';
+import { ProductResponseDto } from './dtos/response/productResponseDto';
 import { UserResponseDto } from './dtos/response/userResponseDto';
+import { ProductEntity } from './entity/product';
 
 @Injectable()
 export class AppService {
+  constructor() {
+    const productEntity = new ProductEntity();
+    productEntity.id = 1;
+    productEntity.name = "Sample Product";
+    productEntity.description = "This is a sample product.";
+    productEntity.price = 99.99;
+    productEntity.isActive = true;
+    console.log(productEntity);
+    const productResponseDto = plainToInstance(ProductResponseDto, productEntity, {
+      excludeExtraneousValues: true // Sadece belirtilen alanları içeren bir nesne oluştur
+    });
+    console.log(productResponseDto);
+  }
+
   getHello(): string {
     return 'Hello World!';
   }
