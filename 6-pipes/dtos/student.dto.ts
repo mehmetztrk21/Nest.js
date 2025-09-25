@@ -1,9 +1,13 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength, ValidateIf } from "class-validator"
+import { CustomValidate } from "decorators/customValidate"
 
 export class StudentDto {
     @IsString()
     @IsNotEmpty({
         message: 'Name is required'
+    })
+    @CustomValidate({
+        message: 'Name must be "Mehmet"'
     })
     name: string
     @IsNumber({}, {
