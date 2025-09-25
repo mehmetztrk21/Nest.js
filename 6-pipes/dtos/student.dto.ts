@@ -21,13 +21,12 @@ export class StudentDto {
         message: 'Email must be valid'
     })
     email: string
-
+    isSSO: boolean
+    @ValidateIf(o => o.isSSO !== true) // isSSO true değilse password validasyonu yap
+    @IsString()
     @IsNotEmpty({
         message: 'Password is required'
     })
-    isSSO: boolean
-    @IsString()
-    @ValidateIf(o => o.isSSO !== true) // isSSO true değilse password validasyonu yap
     @MinLength(6, {
         message: 'Password must be at least 6 characters long'
     })
