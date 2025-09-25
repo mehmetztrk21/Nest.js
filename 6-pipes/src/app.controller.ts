@@ -7,12 +7,12 @@ export class AppController {
   constructor(private readonly appService: AppService) { }
 
   @Post()
-  //@UsePipes(new ValidationPipe()) // dto da yazdığımız kurallara göre validasyon yapar
-  @UsePipes(new ValidationPipe({
-    errorHttpStatusCode: 400, // default 400
-    whitelist: true, // dto da olmayan extra fieldları atar
-    transform: true // gelen veriyi dto class ına çevirir (örneğin string olarak gelen sayısal bir değeri number a çevirir)
-  }))
+  // //@UsePipes(new ValidationPipe()) // dto da yazdığımız kurallara göre validasyon yapar
+  // @UsePipes(new ValidationPipe({
+  //   errorHttpStatusCode: 400, // default 400
+  //   whitelist: true, // dto da olmayan extra fieldları atar
+  //   transform: true // gelen veriyi dto class ına çevirir (örneğin string olarak gelen sayısal bir değeri number a çevirir)
+  // })) // global pipe ayarlarını main.ts de yaptığımız için artık burada yazmaya gerek yok
   createUser(@Body() userDto: CreateUserDto) {
     console.log('User created', userDto);
     return {

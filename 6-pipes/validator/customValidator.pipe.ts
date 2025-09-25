@@ -7,7 +7,7 @@ export const customValidatorPipe = new ValidationPipe({
     forbidNonWhitelisted: false,
     exceptionFactory: (errors: ValidationError[]) => {
         return new BadRequestException({
-            message: 'Validation failed',
+            message: 'Validation failed !',
             errors: errors.map(error => ({
                 field: error.property,
                 messages: Object.values(error.constraints || {})
