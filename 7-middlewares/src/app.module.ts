@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { LoggerMiddleware } from './logger/logger.middleware';
 import { StudentModule } from './student/student.module';
 import { AuthMiddleware } from './middlewares/auth/auth.middleware';
+import { validateMiddleware } from './middlewares/validate.middleware';
 
 @Module({
   imports: [StudentModule],
@@ -18,8 +19,12 @@ export class AppModule implements NestModule {
     consumer.apply(AuthMiddleware)
       .forRoutes('student'); // sadece student route unda çalışır
 
-    // consumer.apply(AuthMiddleware)
-    //   .forRoutes({ path: "student", method: RequestMethod.GET }); // sadece student route unda GET methodu için çalışır
+    consumer.apply(validateMiddleware)
+      .forRoutes({ path: "student", method: RequestMethod.GET }); // sadece student route unda GET methodu için çalışır
+
+    consumer.apply(validateMiddleware)
+      .exclude("auth/login") // auth/login route unda çalışmaz
+      .forRoutes('student', "user"); // student ve user route larda çalışır
 
     //veya
     // consumer.apply(LoggerMiddleware, AuthMiddleware)
