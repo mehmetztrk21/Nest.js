@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerMiddleware } from './logger/logger.middleware';
@@ -12,11 +12,14 @@ import { AuthMiddleware } from './middlewares/auth/auth.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('*'); // tüm route larda çalışır, istersek belli route larda da çalıştırabiliriz
+    // consumer // main.ts de global olarak middleware i uyguladık.
+    //   .apply(LoggerMiddleware)
+    //   .forRoutes('*'); // tüm route larda çalışır, istersek belli route larda da çalıştırabiliriz
     consumer.apply(AuthMiddleware)
       .forRoutes('student'); // sadece student route unda çalışır
+
+    // consumer.apply(AuthMiddleware)
+    //   .forRoutes({ path: "student", method: RequestMethod.GET }); // sadece student route unda GET methodu için çalışır
 
     //veya
     // consumer.apply(LoggerMiddleware, AuthMiddleware)
