@@ -1,6 +1,6 @@
 import { Body, Controller, DefaultValuePipe, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AppService } from './app.service';
 import { CreateUserDto } from 'dtos/user.dto';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
@@ -14,6 +14,22 @@ export class AppController {
     transform: true // gelen veriyi dto class ına çevirir (örneğin string olarak gelen sayısal bir değeri number a çevirir)
   }))
   createUser(@Body() userDto: CreateUserDto) {
+    console.log('User created', userDto);
+    return {
+      message: 'User created',
+      user: userDto
+    }
+  }
+  @Post('custom')
+  @UsePipes(new ValidationPipe({
+    transform: true,
+    whitelist: false, // groups kullanırken false olmalı
+    forbidNonWhitelisted: false,
+    groups: ['create'], // sadece 'create' grubundaki validasyonları uygula
+    errorHttpStatusCode: 400,
+    skipMissingProperties: false // eksik propertyler için de validasyon çalıştır
+  }))
+  async createCustomUser(@Body() userDto: CreateUserDto) {
     console.log('User created', userDto);
     return {
       message: 'User created',
