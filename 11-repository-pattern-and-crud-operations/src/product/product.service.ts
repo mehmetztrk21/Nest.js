@@ -26,10 +26,23 @@ export class ProductService {
         console.log(p);
         return this.productRepository.save(p);
     }
-    async updateProduct(id: string, product: Partial<Product>) : Promise<void> {
+    async updateProduct(id: string, product: Partial<Product>): Promise<void> {
         await this.productRepository.update(id, product);
     }
-    async deleteProduct(id: string) : Promise<void> {
+    async deleteProduct(id: string): Promise<void> {
         await this.productRepository.delete(id);
+    }
+    async getQuery(name: string): Promise<Product[]> {
+        return this.productRepository
+            .createQueryBuilder('product')
+            .where('product.name LIKE :name', { name: `%${name}%` })
+            .andWhere('product.isActive = :isActive', { isActive: true })
+            .getMany();
+
+        //veya raw query ile yapabiliriz
+        // return this.productRepository.query(
+        //     'SELECT * FROM products WHERE name LIKE ? AND isActive = ?',
+        //     [`%${name}%`, true],
+        // );
     }
 }

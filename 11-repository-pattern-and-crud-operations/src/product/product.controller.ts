@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Put,
+    Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from 'src/entities/product.entity';
@@ -17,6 +18,12 @@ export class ProductController {
     @Get()
     async getAllProducts() {
         return this.productService.getAllProducts();
+    }
+
+    @Get('/getQuery')
+    async GetQuery(@Query('name') name: string) {
+        console.log(name, 'mehmet');
+        return this.productService.getQuery(name);
     }
 
     @Get(':id')

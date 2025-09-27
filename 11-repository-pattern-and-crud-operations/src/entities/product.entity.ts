@@ -17,4 +17,7 @@ export class Product extends MyBaseEntity {
 
   @Column('decimal', { precision: 10, scale: 2 }) // toplam 10 hane, 2'si ondalık
   price: number;
+
+  @Column('boolean', { default: true }) // default değeri true
+  isActive: boolean;
 }
