@@ -14,7 +14,10 @@ export class CountryService {
   }
 
   async createCountryWithEm() {
-    //bu şekilde direkt manager ile de işlem yapabiliriz.
+    //bu şekilde direkt manager ile de işlem yapabiliriz. EntityManager tüm entityler için geçerli
+    //aynı işlemi repository ile de yapabiliriz. Repository sadece ilgili entity için geçerli
+    // const country = this.repo.create({ name: 'Türkiye' });
+    // await this.repo.save(country);
     const country = this.manager.create(Country, { name: 'Türkiye' });
     await this.manager.save(country);
     //manager.find(Country);
