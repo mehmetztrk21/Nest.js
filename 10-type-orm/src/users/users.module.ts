@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/entities/User';
+import { msyqlProvider } from 'src/database/database.provider';
 
 @Module({
   //imports:[TypeOrmModule.forFeature([User])] // User entity'sini user modülünde kullanmak için kullanılır. Ama app modulde yüklersek tüm modüllerde kullanabiliriz
-  providers: [UsersService],
+  providers: [UsersService, msyqlProvider],
   controllers: [UsersController],
 })
-export class UsersModule { }
+export class UsersModule {}
