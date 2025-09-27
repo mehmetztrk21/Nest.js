@@ -4,11 +4,13 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { UserProfileModule } from './user_profile/user_profile.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
     UserModule,
     UserProfileModule,
+    PostModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

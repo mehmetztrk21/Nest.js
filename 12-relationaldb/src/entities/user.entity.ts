@@ -6,8 +6,10 @@ import {
     UpdateDateColumn,
     OneToOne,
     JoinColumn,
+    OneToMany,
 } from 'typeorm';
 import { Profile } from './user_profile.entity';
+import { Post } from './post.entity';
 
 @Entity()
 export class User {
@@ -29,4 +31,7 @@ export class User {
     @OneToOne(() => Profile, (profile) => profile.user, { cascade: true }) //cascade: true ile user oluşturulurken profile da oluşturulur
     @JoinColumn() //user tablosunda profileId kolonu oluşur. Eğer Profile entity'sinde JoinColumn olsaydı profile tablosunda userId kolonu oluşurdu
     profile: Profile;
+
+    @OneToMany(() => Post, (post) => post.author, { cascade: true })
+    posts: Post[];
 }
