@@ -65,13 +65,12 @@ export class UserService {
         return await this.userRepository.find({ relations: ['profile', 'posts'] });
     }
     async findOne(id: string): Promise<User> {
-        const user =  await this.userRepository.findOne({
+        const user = await this.userRepository.findOne({
             where: { id },
-            relations: ['profile'],
+            relations: [],
         });
-        if(!user){
-            throw new NotFoundException('User not found');
-        }
-        return user;
+        if (!user) throw new NotFoundException('User not found');
+        const profile = await user.profile; //lazy:true ile user sorgulandığında profile gelmez. profile'a ihtiyaç olduğunda user.profile.then() ile getirilir.
+        return { ...user, ...profile };
     }
 }
