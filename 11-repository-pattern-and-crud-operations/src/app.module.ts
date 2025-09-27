@@ -6,11 +6,12 @@ import { ProductModule } from './product/product.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { ProductSubscriber } from './product/product.subscriber';
+import { CountryModule } from './country/country.module';
+import { DataSource } from 'typeorm';
 //npm i @nestjs/typeorm
 //npm i mysql2
-@Module({
-  imports: [UsersModule, DatabaseModule, ProductModule,
-    TypeOrmModule.forRoot({
+
+export const AppDataSource = new DataSource({
       type: 'mysql',
       host: 'localhost',
       port: 3310,
@@ -18,12 +19,9 @@ import { ProductSubscriber } from './product/product.subscriber';
       password: 'nestjs',
       database: 'nestjs',
       synchronize: true,
-      autoLoadEntities: true,
       connectTimeout: 10000,
       logger: 'simple-console',
       poolSize: 20,
-      retryAttempts: 20,
-      retryDelay: 5000,
       supportBigNumbers: true,
       // entities:[User],
       entities: [__dirname + '/**/*.entity*{.ts,.js}'],
@@ -36,7 +34,15 @@ import { ProductSubscriber } from './product/product.subscriber';
       //  }
 
       // migrationsRun:true
-    }),
+    });
+
+@Module({
+  imports: [
+    UsersModule,
+    DatabaseModule,
+    ProductModule,
+    CountryModule,
+    TypeOrmModule.forRoot(AppDataSource.options),
   ],
   controllers: [AppController],
   providers: [AppService],
