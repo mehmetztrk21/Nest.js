@@ -1,5 +1,6 @@
 import { Check, Column, Entity, Index } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { Address } from './address';
 @Entity({
     name: 'users', // tablo adı
     orderBy: {
@@ -21,4 +22,7 @@ export class User extends BaseEntity {
     @Column('int', { nullable: true }) // nullable:true yaparsak bu kolon null olabilir
     @Check('age >= 0') // age kolonu 0'dan küçük olamaz
     age: number;
+
+    @Column(() => Address, { prefix: false }) // embedded entity : Address classını User entity'sine gömüyoruz. prefix:false yaparsak kolon isimlerinin başına address_ gelmez
+    address: Address;
 }
