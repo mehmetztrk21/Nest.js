@@ -18,6 +18,9 @@ export class Post {
     @Column()
     content: string;
 
+    @Column()
+    userId: string;
+
     @ManyToOne(() => User, (user) => user.posts)
     @JoinColumn({ name: 'userId' })
     author: User;
