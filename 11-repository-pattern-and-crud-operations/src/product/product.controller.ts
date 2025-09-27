@@ -26,9 +26,9 @@ export class ProductController {
         return this.productService.getQuery(name);
     }
 
-    @Get(':id')
-    async getProductById(@Param('id') id: string) {
-        return this.productService.getProductById(id);
+    @Get('/getGroupedQuery')
+    async getProductsByGrouped() {
+        return this.productService.getProductsByGrouped();
     }
 
     @Post()
@@ -36,7 +36,10 @@ export class ProductController {
         console.log(product);
         return this.productService.createProduct(product);
     }
-
+    @Get(':id')
+    async getProductById(@Param('id') id: string) {
+        return this.productService.getProductById(id);
+    }
     @Put(':id')
     async updateProduct(
         @Param('id') id: string,

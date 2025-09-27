@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities/product.entity';
-import { Repository } from 'typeorm'; // npm i typeorm
+import { Between, In, Like, MoreThan, Repository } from 'typeorm'; // npm i typeorm
 
 @Injectable()
 export class ProductService {
@@ -44,5 +44,41 @@ export class ProductService {
         //     'SELECT * FROM products WHERE name LIKE ? AND isActive = ?',
         //     [`%${name}%`, true],
         // );
+    }
+
+    async getProductsQuery(id: string) {
+        //aynı sorguyu yukarıdaki gibi query builder ile de yapabiliriz
+        //     return this.productRepository
+        //         .createQueryBuilder('product')
+        //         .where('product.id IN (:...ids)', { ids: [1, 2, 3] })
+        //         .andWhere('product.price BETWEEN :min AND :max', { min: 100, max: 500 })
+        //         .orWhere('product.name LIKE :name', { name: '%phone%' })
+        //         .andWhere('product.price > :price', { price: 100 })
+        //         .getMany();
+        // }
+
+        return this.productRepository.find({
+            // where: [
+            //     //her süslü parantez and demek, virgül ise or demek
+            //     {
+            //         id: In[(1, 2, 3)],
+            //         price: Between(100, 500),
+            //     },
+            //     {
+            //         name: Like('%phone%'),
+            //         price: MoreThan(100),
+            //     },
+            // ],
+        });
+    }
+
+    async getProductsByGrouped() {
+        return this.productRepository
+            .createQueryBuilder('product')
+            .select('product.isActive', 'isActive')
+            .addSelect('COUNT(*)', 'count')
+            .groupBy('product.isActive')
+            .orderBy('product.isActive', 'ASC') // Sadece groupBy sütunu ile order
+            .getRawMany();
     }
 }
