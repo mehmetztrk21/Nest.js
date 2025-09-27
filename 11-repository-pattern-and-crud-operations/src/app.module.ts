@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { ProductModule } from './product/product.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
+import { ProductSubscriber } from './product/product.subscriber';
 //npm i @nestjs/typeorm
 //npm i mysql2
 @Module({
@@ -28,6 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
       entities: [__dirname + '/**/*.entity*{.ts,.js}'],
       migrations: [__dirname + '/migrations/**/*.ts'],
       logging: true,
+      subscribers: [ProductSubscriber],
       //   subscribers: [__dirname + '/**/*.entity*{.ts,.js}'],
       //  ssl:{
 
