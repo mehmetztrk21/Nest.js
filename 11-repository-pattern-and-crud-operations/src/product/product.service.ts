@@ -17,11 +17,10 @@ export class ProductService {
     }
 
     async createProduct(product: Product): Promise<Product> {
-        const p: Partial<Product> = {
-            name: product.name,
-            description: product.description,
-            price: product.price,
-        };
+        const p = new Product() as Partial<Product>;
+        p.name = product.name;
+        p.description = product.description;
+        p.price = product.price;
         console.log(p);
         return this.productRepository.save(p);
     }

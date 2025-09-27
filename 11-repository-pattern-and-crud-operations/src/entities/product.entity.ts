@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from 'typeorm';
+import { AfterInsert, AfterUpdate, BeforeInsert, BeforeUpdate, Column, Entity, Index } from 'typeorm';
 import { MyBaseEntity } from './base.entity';
 @Entity({
   name: 'products', // tablo adı
@@ -20,4 +20,21 @@ export class Product extends MyBaseEntity {
 
   @Column('boolean', { default: true }) // default değeri true
   isActive: boolean;
+
+  @BeforeInsert()
+  logToInsertBefore() {
+    console.log('Yeni bir ürün ekleniyor:', this.name);
+  }
+  @AfterInsert()
+  logToInsertAfter() {
+    console.log('Yeni bir ürün eklendi:', this.name);
+  }
+  @BeforeUpdate()
+  logToUpdate() {
+    console.log('Bir ürün güncelleniyor:', this.name);
+  }
+  @AfterUpdate()
+  logToUpdateAfter() {
+    console.log('Bir ürün güncellendi:', this.name);
+  }
 }
