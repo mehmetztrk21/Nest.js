@@ -81,4 +81,24 @@ export class ProductService {
             .orderBy('product.isActive', 'ASC') // Sadece groupBy sütunu ile order
             .getRawMany();
     }
+
+    async createProductWithTransaction(product: Product) {
+        return this.productRepository.manager.transaction(
+            'READ COMMITTED',
+            //READ UNCOMMITTED: En düşük izolasyon seviyesidir. Bir transaction, başka bir transaction tarafından commit edilmemiş verileri okuyabilir (dirty read).
+            //READ COMMITTED: Bir transaction, başka bir transaction tarafından commit edilmemiş verileri okuyamaz. Default seviyedir.
+            //REPEATABLE READ: Bir transaction, aynı veriyi tekrar okuduğunda, o verinin başka bir transaction tarafından değiştirilmemiş olduğunu garanti eder.
+            //SERIALIZABLE: En katı izolasyon seviyesidir. Transactionlar birbirini tamamen izole eder, bu da en yüksek veri bütünlüğünü sağlar ancak performansı düşürebilir.
+            async (transactionalEntityManager) => {
+                const p: Partial<Product> = {
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                };
+                const newProduct = await transactionalEntityManager.save(p);
+                //başka işlemler de yapabiliriz. Örneğin stok tablosuna da ekleme yapabiliriz. Hata olursa tüm işlemler rollback olur
+                return newProduct;
+            },
+        );
+    }
 }

@@ -52,4 +52,9 @@ export class ProductController {
     async deleteProduct(@Param('id') id: string) {
         return this.productService.deleteProduct(id);
     }
+
+    @Post('createWithTransaction')
+    async createProductWithTransaction(@Body() product: Product) {
+        return this.productService.createProductWithTransaction(product);
+    }
 }
