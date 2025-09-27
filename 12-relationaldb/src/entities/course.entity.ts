@@ -3,15 +3,15 @@ import { Student } from './student.entity';
 
 @Entity()
 export class Course {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  title: string;
+    @Column()
+    title: string;
 
-  @Column()
-  description: string;
+    @Column()
+    description: string;
 
-  @ManyToMany(() => Student, (student) => student.courses)
-  students: Student[];
+    @ManyToMany(() => Student, (student) => student.courses)
+    students: Student[];
 }
