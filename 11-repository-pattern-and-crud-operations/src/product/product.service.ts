@@ -2,12 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities/product.entity';
 import { Between, In, Like, MoreThan, Repository } from 'typeorm'; // npm i typeorm
+import { ProductRepository } from './product.repository.custom';
 
 @Injectable()
 export class ProductService {
-    constructor(
-        @InjectRepository(Product) private productRepository: Repository<Product>,
-    ) { }
+    constructor(private productRepository: ProductRepository) { }
 
     async getAllProducts() {
         return this.productRepository.find();
@@ -100,5 +99,9 @@ export class ProductService {
                 return newProduct;
             },
         );
+    }
+
+    async getProductByName(name: string): Promise<Product[]> {
+        return this.productRepository.findByName(name);
     }
 }

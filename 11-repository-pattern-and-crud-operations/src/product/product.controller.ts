@@ -26,6 +26,11 @@ export class ProductController {
         return this.productService.getQuery(name);
     }
 
+    @Get('/getByName')
+    async getProductByName(@Query('name') name: string) {
+        return this.productService.getProductByName(name);
+    }
+
     @Get('/getGroupedQuery')
     async getProductsByGrouped() {
         return this.productService.getProductsByGrouped();
