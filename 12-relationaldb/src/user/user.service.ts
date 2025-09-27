@@ -65,12 +65,34 @@ export class UserService {
         return await this.userRepository.find({ relations: ['profile', 'posts'] });
     }
     async findOne(id: string): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: { id },
-            relations: [],
-        });
+        //aşağıdaki gibi yazarsak N+1 problemine gireriz. Çünkü her user için ayrı ayrı profile sorgusu atar.
+        // const user = await this.userRepository.findOne({
+        //     where: { id },
+        //     relations: [],
+        // });
+        // if (!user) throw new NotFoundException('User not found');
+        // const profile = await user.profile; //lazy:true ile user sorgulandığında profile gelmez. profile'a ihtiyaç olduğunda user.profile.then() ile getirilir.
+        // return {
+        //     ...user,
+        //     profile,
+        // };
+        return this.solvePlus1Problem(id);
+    }
+
+    async solvePlus1Problem(id: string): Promise<User> {
+        const user = await this.userRepository
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.profile', 'profile')
+            .leftJoinAndSelect('user.posts', 'posts')
+            .where('user.id = :id', { id })
+            .getOne();
         if (!user) throw new NotFoundException('User not found');
-        const profile = await user.profile; //lazy:true ile user sorgulandığında profile gelmez. profile'a ihtiyaç olduğunda user.profile.then() ile getirilir.
-        return { ...user, ...profile };
+
+        // Ensure profile is properly structured in the response
+        const { __profile__, ...rest } = user as any;
+        return {
+            ...rest,
+            profile: __profile__,
+        };
     }
 }

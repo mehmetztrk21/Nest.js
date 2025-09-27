@@ -1,8 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    UseInterceptors,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from 'src/dtos/create.user.dto';
 import { User } from 'src/entities/user.entity';
 
+@UseInterceptors(ClassSerializerInterceptor) //Ne işe yarar: User entity'sinde @Exclude() ile gizlediğimiz kolonlar response'da gelmez.
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) { }
