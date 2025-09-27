@@ -5,6 +5,8 @@ import { UserModule } from './user/user.module';
 import { UserProfileModule } from './user_profile/user_profile.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostModule } from './post/post.module';
+import { StudentModule } from './student/student.module';
+import { CourseModule } from './course/course.module';
 
 @Module({
   imports: [
@@ -28,8 +30,10 @@ import { PostModule } from './post/post.module';
       migrations: [__dirname + '/migrations/**/*.ts'],
       logging: true,
     }),
+    StudentModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
