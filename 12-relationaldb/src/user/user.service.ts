@@ -100,4 +100,15 @@ export class UserService {
             profile: __profile__,
         };
     }
+
+    //aşağıdaki gibi farklı farklı joinler ve karmaşık sorgular yazabiliriz.
+    async customJoin() {
+        const users = await this.userRepository
+            .createQueryBuilder('user')
+            .leftJoinAndSelect('user.profile', 'profile')
+            .leftJoinAndSelect('user.posts', 'posts')
+            .innerJoinAndSelect('posts.author', 'author')
+            .getMany();
+        return users;
+    }
 }
