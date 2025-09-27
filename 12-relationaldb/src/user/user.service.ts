@@ -15,13 +15,15 @@ export class UserService {
 
     async create(createUserDto: CreateUserDto): Promise<User> {
         const { name, email, profile } = createUserDto;
-        const newProfile = this.profileRepository.create(profile);
-        await this.profileRepository.save(newProfile);
+
+        // cascade: true olduğu için profile'ı ayrı kaydetmeye gerek yok
+        // const newProfile = this.profileRepository.create(profile);
+        // await this.profileRepository.save(newProfile);
 
         const newUser = this.userRepository.create({
             name,
             email,
-            profile: newProfile,
+            profile: profile,
         });
         return await this.userRepository.save(newUser);
     }
@@ -41,7 +43,8 @@ export class UserService {
         if (email) user.email = email;
         if (profile) {
             user.profile = { ...user.profile, ...profile };
-            await this.profileRepository.save(user.profile);
+            // cascade: true olduğu için profile'ı ayrı kaydetmeye gerek yok
+            // await this.profileRepository.save(user.profile);
         }
 
         return await this.userRepository.save(user);
@@ -56,9 +59,11 @@ export class UserService {
             throw new Error('User not found');
         }
         await this.userRepository.remove(user);
-        if (user.profile) {
-            await this.profileRepository.remove(user.profile);
-        }
+
+        //cascade: true olduğu için profile'ı ayrı silmeye gerek yok
+        // if (user.profile) {
+        //     await this.profileRepository.remove(user.profile);
+        // }
     }
 
     async findAll(): Promise<User[]> {

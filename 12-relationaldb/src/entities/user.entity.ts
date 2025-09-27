@@ -30,9 +30,11 @@ export class User {
   updatedAt: Date;
 
   @OneToOne(() => Profile, (profile) => profile.user, {
-    cascade: true,
+    cascade: true, //veya spesifik olarak ['insert', 'update'] da yazılabilir. Kod seviyesinde çalışır.
     eager: false,
     lazy: true,
+    onDelete: 'CASCADE', //veritabanı seviyesinde çalışır. User silindiğinde ilişkili Profile'ı da siler
+    orphanedRowAction: 'delete', //user ile ilişkisi kesilen profile'ı siler. Yani user.profile = null yaparsak profile silinir
   })
   //lazy:true ile user sorgulandığında profile gelmez. profile'a ihtiyaç olduğunda user.profile.then() ile getirilir.
   //cascade: true ile user oluşturulurken profile da oluşturulur
