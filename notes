@@ -1,0 +1,37 @@
+Docker
+------------------------
+🔹 1. İmaj (Image) İşlemleri
+
+docker pull <image>       # Docker Hub’dan imaj indir
+docker images             # Yereldeki imajları listele
+docker rmi <image_id>     # İmaj sil
+docker build -t name .    # Dockerfile’dan imaj oluştur
+
+🔹 2. Container İşlemleri
+
+docker run <image>                 # Yeni container başlat
+docker run -it <image> bash        # Etkileşimli başlat (terminal açar)
+docker ps                          # Çalışan container’ları listele
+docker ps -a                       # Tüm container’ları listele (durdurulmuş dahil)
+docker stop <container_id>         # Container durdur
+docker start <container_id>        # Durdurulmuş container’ı başlat
+docker restart <container_id>      # Container yeniden başlat
+docker rm <container_id>           # Container sil
+
+🔹 3. Log ve Bağlantı İşlemleri
+
+docker logs <container_id>         # Container loglarını görüntüle
+docker exec -it <container_id> sh  # Çalışan container içine gir
+
+
+🔹 4. Sistem Yönetimi
+
+docker version      # Docker versiyonunu öğren
+docker info         # Sistem bilgilerini göster
+docker system df    # Disk kullanımını göster
+docker system prune # Kullanılmayan imaj, container, volume temizle
+
+
+
+
+
