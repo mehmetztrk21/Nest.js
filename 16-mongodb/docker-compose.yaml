@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo_container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: nestjs
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
