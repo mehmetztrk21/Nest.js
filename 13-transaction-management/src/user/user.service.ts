@@ -45,7 +45,7 @@ export class UserService {
         }
     }
 
-    // Repository ile transaction kullanımı
+    // Repository ile transaction kullanımı. En kolay yöntem.
     async createUserWithRepo(userData: any): Promise<User> {
         const { email, name, profile } = userData;
 
@@ -62,5 +62,54 @@ export class UserService {
 
             return manager.save(user);
         });
+    }
+
+    async createUserNestedTransaction(userData: any): Promise<User> {
+        userData = {
+            name: 'TEST',
+            email: '55jkullanıcı@mail.com',
+            profile: {
+                bio: '21bio yer alır',
+            },
+        };
+
+        const queryRunner = this.userRepository.manager.connection
+            .createQueryBuilder()
+            .connection.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+
+        try {
+            const { email, name, profile } = userData;
+
+            const user = new User();
+            user.name = name;
+            user.email = email;
+
+            await queryRunner.manager.save(user);
+            //Şunu yapıyor: Profil kaydetmeden önce bir SAVEPOINT oluşturuyor. Yani bir nevi geçici kayıt noktası. Eğer profil kaydetme işlemi başarısız olursa, bu SAVEPOINT'e geri dönülüyor ve kullanıcı kaydı korunmuş oluyor.
+            //Profil ekleme işlemi başarısız olursa, kullanıcı kaydı korunur.
+            await queryRunner.query('SAVEPOINT profilesavepoint');
+            try {
+                const newProfile = new Profile();
+                newProfile.bio = profile.bio;
+                throw new Error('Transaction failed');
+                await queryRunner.manager.save(newProfile);
+
+                user.profile = newProfile;
+                await queryRunner.manager.save(user);
+            } catch (error) {
+                // Profil ekleme işlemi başarısız olursa, kullanıcı kaydı korunur.
+                await queryRunner.query('ROLLBACK TO SAVEPOINT profilesavepoint');
+            }
+            await queryRunner.commitTransaction();
+            return user;
+        } catch (error) {
+            await queryRunner.rollbackTransaction();
+            console.log('error', error);
+            throw new Error('Transaction failed');
+        } finally {
+            await queryRunner.release();
+        }
     }
 }

@@ -17,4 +17,10 @@ export class UserController {
         const { name, email, profile } = body;
         return this.userService.createUserWithRepo({ name, email, profile });
     }
+
+    @Post('nested')
+    async createUserNestedTransaction(@Body() body: Partial<User>): Promise<User> {
+        const { name, email, profile } = body;
+        return this.userService.createUserNestedTransaction({ name, email, profile });
+    }
 }
