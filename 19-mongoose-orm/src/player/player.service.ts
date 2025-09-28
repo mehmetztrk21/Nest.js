@@ -27,4 +27,22 @@ export class PlayerService {
             .findByIdAndUpdate(id, { name, age }, { new: true })
             .exec();
     }
+
+    async getAllWithPagination(page: number, limit: number): Promise<any> {
+        const skip = (page - 1) * limit;
+        const totalCount = await this.playerModel.countDocuments();
+        const players = await this.playerModel
+            .find()
+            .skip(skip)
+            .limit(limit)
+            .exec();
+
+        return {
+            data: players,
+            page: page,
+            limit: limit,
+            totalCount: totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+        };
+    }
 }

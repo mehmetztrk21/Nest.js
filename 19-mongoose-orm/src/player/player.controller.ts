@@ -36,4 +36,11 @@ export class PlayerController {
     ) {
         return this.playerService.update(id, body.name, body.age);
     }
+    @Get('pagination/:page/:limit')
+    async getAllWithPagination(
+        @Param('page') page: number,
+        @Param('limit') limit: number,
+    ) {
+        return this.playerService.getAllWithPagination(page, limit);
+    }
 }
