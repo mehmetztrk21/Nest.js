@@ -70,5 +70,9 @@ export class UserService {
         return this.userModel.findByIdAndDelete(id).exec();
     }
 
+    async profile(username: string) {
+        return await this.userModel.findOne({ username: username }).exec();
+    }
+
 
 }

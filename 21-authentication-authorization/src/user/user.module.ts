@@ -11,7 +11,7 @@ import { User, UserSchema } from 'src/schemas/user.schema';
     JwtModule.register({
       secret: 'mySecretKey', //gizli anahtar
       signOptions: {
-        expiresIn: '60s', //token 60 saniye sonra geçersiz olur
+        expiresIn: '1h', //token 60 saniye sonra geçersiz olur
         algorithm: 'HS256',
         audience: 'urn:myapi', //tokenin hedef kitlesi
         issuer: 'my-nest-js-api', //tokeni oluşturan
@@ -25,7 +25,7 @@ import { User, UserSchema } from 'src/schemas/user.schema';
         audience: 'urn:myapi',
         issuer: 'my-nest-js-api',
         subject: 'auth',
-        maxAge: '120s', //tokenin maksimum geçerlilik süresi
+        maxAge: '1h', //tokenin maksimum geçerlilik süresi
         // ignoreExpiration: true //tokenin süresinin dolup dolmadığını yoksay. 
         // complete: true //tüm doğrulama seçeneklerini kontrol et
         jwtid: 'unique-id'
