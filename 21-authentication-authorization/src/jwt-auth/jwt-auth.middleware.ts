@@ -9,7 +9,7 @@ export class JwtAuthMiddleware implements NestMiddleware {
   ) { }
   use(req: Request, res: any, next: () => void) {
     const path = req?.originalUrl;
-    if (path.startsWith('/user/auth') || path.startsWith('/user/create') || path.startsWith('/auth/login') || path.startsWith('/auth/logout')) {
+    if (path.startsWith('/user/auth') || path.startsWith('/user/create') || path.startsWith('/auth/login') || path.startsWith('/auth/logout') || path.startsWith('/mfa')) {
       next();
       return;
     }
