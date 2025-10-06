@@ -31,6 +31,35 @@ docker info         # Sistem bilgilerini göster
 docker system df    # Disk kullanımını göster
 docker system prune # Kullanılmayan imaj, container, volume temizle
 
+---------------------- ---------------------- -------------- ---------------------- ---------------------- --------------
+
+Middleware vs Guard
+
+Middleware	
+Temel Amaç :	İsteği işlemek, değiştirmek, günlüklemek (logging) veya Kimlik Doğrulama (Authentication) gibi genel işlemler için kullanılır.	
+Odak Noktası : Uygulamanın bütününde veya belirli rota gruplarında genel istek öncesi görevler.
+Route Bilgisi : Genellikle bilmez. Middleware, route işleyicisine ulaşmadan önce çalışır ve hangi Controller veya handler'ın çağrılacağını bilmez. Bu yüzden kararları yalnızca istek/cevap nesnesine dayanır.
+Karar Mekanizması : next() çağırarak isteğin bir sonraki adıma (Guard'a veya Controller'a) ilerlemesini sağlar veya bir yanıt göndererek döngüyü sonlandırır.
+
+Guard
+Temel Amaç : Yetkilendirme (Authorization) ve erişim kontrolü yapmak için kullanılır. Bir kullanıcının belirli bir rotaya/kaynağa erişim izni olup olmadığını belirler.
+Odak Noktası : Belirli bir rota işleyicisine (route handler) erişimi kısıtlamak.
+Route Bilgisi : Bilir. ExecutionContext sayesinde çağrılmakta olan Controller ve method hakkında bilgiye (metadata) erişebilir.
+Karar Mekanizması : boolean (true veya false) değeri döndürür. true ise erişim izni verir, false ise erişimi engeller (genellikle bir HTTP istisnası fırlatır).
+
+Middleware her zaman Guard'lardan önce çalışır.
+
+Çalışma Önceliği
+
+1. Middleware: İlk olarak çalışır. Express'teki geleneksel middleware'ler gibi davranır.
+
+2. Guard: Middleware'den sonra çalışır. Rotaya erişimi etkinleştirmeden önce yetkilendirme kontrolünü yapar.
+
+3. Interceptor (önce): Guard'dan sonra, Controller'dan önce çalışır.
+
+4. Pipe: Controller metodu çağrılmadan hemen önce çalışır.
+
+5. Controller Metodu: Çalıştırılır.
 
 
 
