@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
-import type { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as argon2 from 'argon2';
 import { UserService } from './user.service';
 import { LoginDto } from './dtos/login.dto';
+import type { Response } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -12,13 +12,21 @@ export class UserController {
     ) { }
 
     @Post("auth/login")
-    async auth(@Body() auth: LoginDto, @Res() response: Response) {
-        var res = await this.userService.login(auth);
-        if (!res) {
-            return response.status(401).json({ message: "Auth failed" });
+    async auth(@Body() auth: LoginDto, @Res({ passthrough: true }) response: Response) {
+        const authResult = await this.userService.login(auth);
+        if (!authResult) {
+            response.status(401);
+            return { message: "Auth failed" };
         }
-        console.log(res);
-        return response.status(200).json(res);
+        console.log(authResult);
+        response.cookie("refresh_token", authResult.refresh_token, { // bu şekilde refresh token çerezine atılır
+            httpOnly: true,
+            secure: false, //true ise sadece https üzerinden gönderilir
+            sameSite: 'lax', //cross-site isteklerde çerez gönderilmez
+            maxAge: 7 * 24 * 60 * 60 * 1000 //7 gün
+        });
+        response.status(200);
+        return authResult;
     }
 
     @Post("authWithArgon")
