@@ -6,9 +6,10 @@ import { PackagesModule } from './packages/packages.module';
 import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { AdminModule } from './admin/admin.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
-  imports: [ItemsModule, PackagesModule, JwtModule, AdminModule],
+  imports: [ItemsModule, PackagesModule, JwtModule, AdminModule, ProductModule],
   controllers: [AppController],
   providers: [AppService,
     //   {
