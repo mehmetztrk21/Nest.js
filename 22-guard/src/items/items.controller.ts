@@ -1,4 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
+import { ApiKeyGuard } from 'src/api-key/api-key.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('items')
@@ -6,6 +7,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class ItemsController {
 
     @Get()
+    @UseGuards(ApiKeyGuard) // (AuthGuard, ApiKeyGuard) şeklinde birden fazla guard eklenebilir.
     getItems() {
         return [
             { id: 1, name: 'Item 1' },
