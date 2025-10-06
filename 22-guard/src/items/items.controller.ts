@@ -1,6 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiKeyGuard } from 'src/api-key/api-key.guard';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Policy } from 'src/policy/policy.decorator';
 
 @Controller('items')
 // @UseGuards(AuthGuard) // İtem için Tüm route'larda AuthGuard'ı kullan
@@ -23,4 +24,17 @@ export class ItemsController {
             { id: 2, name: 'Protected Item 2' },
         ];
     }
+
+    @Get("policy")
+    @Policy({
+        action: "read",
+        resource: "items"
+    })
+    getPolict() {
+        return [
+            { id: 1, name: 'Item 1' },
+            { id: 2, name: 'Item 2' },
+        ];
+    }
+
 }
