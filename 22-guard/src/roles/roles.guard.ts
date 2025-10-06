@@ -11,6 +11,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    console.log("RolesGuard çalıştı");
     const requiredRoles = this.reflactor.getAllAndOverride<string[]>('roles', [
       context.getHandler(), // method
       context.getClass(), // controller

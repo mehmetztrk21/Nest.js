@@ -1,4 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthAndRole } from 'src/authAndRoleGuard/authAndRoleGuard';
 import { Roles } from 'src/roles/roles.decorator';
 import { RolesGuard } from 'src/roles/roles.guard';
 
@@ -13,7 +14,8 @@ export class AdminController {
     }
 
     @Get("settings")
-    @Roles('admin') // Sadece 'admin' rolüne sahip kullanıcılar erişebilir
+    // @Roles('admin') // Sadece 'admin' rolüne sahip kullanıcılar erişebilir
+    @AuthAndRole('manager') // AuthGuard ve RolesGuard birlikte kullanılır. Bu şekilde guard ları  birlikte kullanabiliriz tek tek controller veya method üzerinde.
     getAdminSettings() {
         return { message: 'Admin Settings Page' };
     }
