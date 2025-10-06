@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as argon2 from 'argon2';
 import { UserService } from './user.service';
+import { LoginDto } from './dtos/login.dto';
 
 @Controller('user')
 export class UserController {
@@ -11,11 +12,12 @@ export class UserController {
     ) { }
 
     @Post("auth/login")
-    auth(@Body() auth: { username: string, password: string }, @Res() response: Response) {
-        var res = this.userService.login(auth.username, auth.password);
+    async auth(@Body() auth: LoginDto, @Res() response: Response) {
+        var res = await this.userService.login(auth);
         if (!res) {
             return response.status(401).json({ message: "Auth failed" });
         }
+        console.log(res);
         return response.status(200).json(res);
     }
 
@@ -30,4 +32,23 @@ export class UserController {
         }
         return response.status(200).json({ message: "Auth successful" });
     }
+
+    @Post("create")
+    async create(@Body() newUser: { username: string, password: string, fullName?: string }, @Res() response: Response) {
+        const user = await this.userService.createUser(newUser.username, newUser.password, newUser.fullName);
+        return response.status(201).json(user);
+    }
+
+    @Get("all")
+    async all(@Res() response: Response) {
+        const users = await this.userService.findAllUsers();
+        return response.status(200).json(users);
+    }
+    @Put("update/:id")
+    async update(@Param("id") id, @Body() updateUser: { username: string, password: string, fullName?: string }, @Res() response: Response) {
+        const user = await this.userService.updateUser(id, updateUser);
+        return response.status(200).json(user);
+    }
+
+
 }
