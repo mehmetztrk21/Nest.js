@@ -1,0 +1,24 @@
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+
+@Controller('items')
+// @UseGuards(AuthGuard) // İtem için Tüm route'larda AuthGuard'ı kullan
+export class ItemsController {
+
+    @Get()
+    getItems() {
+        return [
+            { id: 1, name: 'Item 1' },
+            { id: 2, name: 'Item 2' },
+        ];
+    }
+
+    @Get('protected')
+    @UseGuards(AuthGuard) // Sadece bu route için AuthGuard'ı kullan. Birden fazla guard eklenebilir.
+    getProtectedItems() {
+        return [
+            { id: 1, name: 'Protected Item 1' },
+            { id: 2, name: 'Protected Item 2' },
+        ];
+    }
+}
