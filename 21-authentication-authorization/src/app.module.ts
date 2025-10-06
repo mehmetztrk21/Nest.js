@@ -5,11 +5,12 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtAuthMiddleware } from './jwt-auth/jwt-auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost/nestjs'),
-    UserModule, JwtModule], //middleware içinde kullanmak için JwtModule ekledik
+    UserModule, JwtModule, AuthModule], //middleware içinde kullanmak için JwtModule ekledik
   controllers: [AppController],
   providers: [AppService],
 })
