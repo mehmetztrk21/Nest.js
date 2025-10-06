@@ -2,20 +2,21 @@ import { Body, Controller, Post, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as argon2 from 'argon2';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
+    constructor(
+        private readonly userService: UserService
+    ) { }
 
-    @Post("auth")
+    @Post("auth/login")
     auth(@Body() auth: { username: string, password: string }, @Res() response: Response) {
-        console.log(auth);
-        const passwordHash = bcrypt.hashSync("1234", 10); //,10 parola karmaşıklık seviyesi
-        console.log(passwordHash);
-        const isPasswordMatching = bcrypt.compareSync(auth.password, passwordHash);
-        if (auth.username !== "mehmet" || !isPasswordMatching) {
+        var res = this.userService.login(auth.username, auth.password);
+        if (!res) {
             return response.status(401).json({ message: "Auth failed" });
         }
-        return response.status(200).json({ message: "Auth successful" });
+        return response.status(200).json(res);
     }
 
     @Post("authWithArgon")
